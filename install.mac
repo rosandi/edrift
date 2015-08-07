@@ -1,0 +1,8 @@
+INSTALL_DIR=$HOME/Library/local
+echo copying binaries to $INSTALL_DIR
+mkdir -p $INSTALL_DIR/include/edrift
+mkdir -p $INSTALL_DIR/lib
+cp drift/*.h $INSTALL_DIR/include/edrift
+cp drift/*.a $INSTALL_DIR/lib
+cp drift/*.so $INSTALL_DIR/lib
+cp -a python $INSTALL_DIR/lib

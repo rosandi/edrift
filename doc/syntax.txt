@@ -1,0 +1,91 @@
+/**
+@page command E-Drift console commands
+
+@section buffer Buffer management
+
+@verbatim
+create name nx ny
+create name classname.dim
+create name buffername.dim
+delete name
+copy from to
+add|sub|mul|div name number
+add|sub|mul|div buffer1 buffer2
+assign name[range] number
+  range [x,y] or [x0,y0,x1,y1]
+
+fill name table
+fill name x|y
+fill name x|y delta
+@endverbatim
+
+@section table Reading table
+@verbatim
+table read table_name@file scale constant
+
+on read:
+    x value is multiplied by scale
+    return value by constant
+    default 1.0 and 1.0
+
+@endverbatim
+
+@section dump Dump commands
+
+@verbatim
+# to dump buffer
+# b is exemplary buffer name. can be dom.buff
+dump b >> filename
+dump every(200) b > filename
+
+# dump a domain
+dump 
+dump > dump.file
+@endverbatim
+
+Dot is used as class-member separator 
+
+@section variable System variables
+
+@verbatim
+buf.nx
+buf.ny
+buf.dim -> tupple of nx ny
+buf.size
+
+#for fd-class plus this:
+class.timestep
+class.spacestep
+class.step
+class.time -> step*timestep
+@endverbatim
+
+@section print Printing data to screen or file
+
+@verbatim
+# cu is exemplary name of a domain
+echo text every(100) step(cu) time(cu) avg(cu.cell)
+
+# print out text and values indicated by mnemonic.
+# mnemonics:
+#  step(dom) -> step of domain dom
+#  time(dom) or elepsed(dom) -> elapsed time at dom
+#  avg(dom.buff) of avg(buff) -> average value
+@verbatim
+
+@section loop Commands loop
+
+In a loop block, every command may use interval descriptor. To define an interval
+use at '@' symbol after any command. The command will be executed at a defined interval,
+regarding the loop-counter.
+to stop command at any time use ':'.
+
+@verbatim
+example:
+plot@100:500 a
+
+plots plotter a every 100 interval, and stop at the 500th loop
+
+@endverbatim
+
+**/

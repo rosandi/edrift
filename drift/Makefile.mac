@@ -1,0 +1,27 @@
+
+SRC = buffer.cpp drift.cpp equ.cpp driftlib.cpp
+
+LIB = libdrift
+OBJ = $(SRC:.cpp=.o)
+
+INCFLAGS = -O -I../ -I$(HOME)/Library/local/include 
+LIBFLAGS = -L$(HOME)/Library/local/lib
+
+ARCHIVE = ar
+ARCHFLAG = -rc
+LINK = g++
+LINKFLAGS =	-O
+USRLIB =
+SYSLIB =
+
+lib: 	$(OBJ)
+	$(ARCHIVE) $(ARFLAGS) $(LIB).a $(OBJ)
+
+shlib: $(OBJ)
+	mpicxx -shared -o $(LIB).so $(LIBFLAGS) $(OBJ) -lm -lomdtool -lmuparser
+
+%.o:%.cpp
+	$(CXX) -fPIC -Wall $(INCFLAGS) -c $<
+
+clean:
+	-rm -f *.o *.so *~ $(LIB)

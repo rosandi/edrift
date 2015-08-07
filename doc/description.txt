@@ -1,0 +1,211 @@
+/**
+
+@mainpage The Electron Diffusion Simulation Program\n(E-DRIFT)
+@author Y. Rosandi, AG-Urbassek, FB-Physik, TU-Kaiserslautern
+
+EDrift is a program to simulate difusion of electron in material. However,
+it also possible to use this program to solve a general diffusion problems.
+This program is written in object-oriented C++, to allow integration with
+other simulation programs such as molecular dynamics. A front-end program is
+also available to accept command line and script interaction to the
+program. The name E-Drift reffers to the front-end, which can accept
+commands from standard input. The convenient way is to type all commands in
+a script, and then feed the content of file to the program by input
+redirection.
+
+@page model Creating model file
+
+To work with a difussion system, the program requires a so called model
+file.  The file is a plain text file which consist of the description and design
+of the system written in a series of identifier. Lines begining with a hask
+'#' is ignored. Followings are a list of
+identifier:
+
+<b>name</b> name_of_model \n
+Defines the name of the model
+
+<b>dim</b> nx ny [nz] \n
+Defines the number of cell in x,y, and z direction. If only nx and nz is
+given the simulation model is 2 dimensional.
+
+<b>timestep</b> timestep \n
+Defines the timestep of the finite-difference calculation
+
+<b>spacestep</b> h \n
+Defines the size of finite-different cell (same size in all dimension)
+
+<b>set</b>\n
+Defines a variable and set a constant value or an arithmetic expression.\n
+Example:
+@verbatim
+set lam=140
+set DL*DL*DL
+@endverbatim
+
+<b>periodic x|y|z</b>\n
+Set peridic axis.
+
+\n\n
+E-Drift use a map in 2-D or 3D, to design the model. The map consists of
+symbols which will be converted to the type of cell in the finite-difference
+calculation grid.
+
+
+<b>symbol</b> \n
+Declares the symbol table of finite-difference cells. This command must be
+followed by newline separated list of simbol-boundary pair identifiers.
+First field is the symbol and the second is the boundary type. The list is
+terminated by empty line. Example:
+
+@verbatim
+symbol
+a p+++p+
+b ++++p+
+c +p++p+
+d p+++++
+e ++++++
+f +p++++
+g p++++p
+h +++++p
+i +p+++p
+
+@endverbatim 
+
+The first files is the symbol of the cell represented by a single character. 
+The second field is the list of the status neighbouring cell
+(boundary), arranged in left-right-top-bottom-near-far sequence. Plus '+'
+means that the heighbor exists, minus '-' for empty, and 'p' for periodic.
+
+<b>map</b>\n 
+Defined the map (design) of the simulation cell.  The map is sequence of symbols
+listed in the <b>symbol</b> declaration. One character per cell and
+terminated by an empty line. The number of
+character must be synchronized with the dimension of system. Basically a map
+consists only of a stream of nx*ny*nz characters, arranged in row-major. The
+subsequent character is the cell with increasing x coordinate. 
+In the front end, one can define the duplication of a set of characters by
+giving a number of replication after the character list (second field). To
+make duplication of a group of characters curly bracket can be used.
+Followings are some examples:
+
+@verbatim
+map
+.................................................. 1
+abbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbc
+dxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxe 21
+dxxxxxxxxxxxxxxxxxxxxxxxssxxxxxxxxxxxxxxxxxxxxxxxe 4
+dxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxe 21
+fggggggggggggggggggggggggggggggggggggggggggggggggh
+.................................................. 1
+
+@endverbatim 
+
+Group duplication
+@verbatim
+map
+.... 16
+abbc 32
+.... 16 
+{ 2
+.... 16
+deef 32
+.... 16
+}
+.... 16
+ghhi 32
+.... 16
+
+@endverbatim
+
+<b>cell</b> \n
+The initialization of the cell. The value of cells follows in the newline after
+the identifier. The first field of the value is a list of symbols that what to be
+assigned by the value in the second field. A symbol is previously defined by
+the <b>symbol</b> command, with some special characters,
+
+\li * applies to all cell
+\li @ applies to a region defined in the second field.
+
+Syntax:\n
+
+symbols expression:start_time[:stop_time]
+
+The second field is the value that will be assigned to the cells. A constant
+number or a basik mathematical equation may be used here. Special when "@"
+is used as symbol, the expression is started by the range of coordinate of
+the cell. Arithmetic expression is writen between curly brackets\n
+Example:\n
+
+@verbatim
+a 0.23:0
+bcd {C*exp(-z/lam)}:0:10000
+@ 0,15,0,49,20,0={5*sin((x/(LX-DL))*Pi)^2:0:100}
+@endverbatim
+
+<b>source</b>\n
+Sets the source matrix. Using time limits this can be a pulse of source.
+The syntax is the same as <b>cell</b>.
+
+<b>conductivity</b>\n
+Sets the conductivity matrix. The syntax is the same as <b>cell</b>.
+
+<b>capacity</b>\n
+Sets the heat capacity matrix.  The syntax is the same as <b>cell</b>.
+
+\n
+<b>Model file example</b>\n
+
+@verbatim
+name cuslab
+dim 4 4 1000
+timestep 2e-5
+
+spacestep 7.23
+periodic xy
+
+# x: fd zone
+# m: md zone
+
+symbol
+x ++++++
+m ++++++
+
+map
+{ 1000
+mmmm
+mmmm
+mmmm
+mmmm
+}
+
+# in lammps::fix_edrift two first tables are reserved for Ce(Te) and G(Te)
+table Ce_Cu.dat 1e+4 6.2414e-7
+table G_Cu.dat 1e+4 6.2414e-7
+
+set lam=140
+set ohm=DL*DL*DL
+
+set phi=100
+
+# in kelvin timestep/Tau
+set C=phi/(lam*DT*10000)
+
+cell
+* 320.0:0
+
+# 200 fs pulse
+source
+* {C*exp(-z/lam)}:0:10000
+
+conductivity
+* 0.2497:0
+
+capacity
+* {Read(1,cell)}
+
+@endverbatim
+
+
+
+**/
+

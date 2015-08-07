@@ -1,0 +1,23 @@
+
+SRC = buffer.cpp domain.cpp drift.cpp
+
+LIB = libdrift.a
+OBJ = $(SRC:.cpp=.o)
+
+CXX = mpic++
+CXXFLAGS = -O -I../ -I$(HOME)/include -L$(HOME)/lib
+ARCHIVE = ar
+ARCHFLAG = -rc
+LINK = mpic++
+LINKFLAGS =	-O
+USRLIB =
+SYSLIB =
+
+all: 	$(OBJ)
+	$(ARCHIVE) $(ARFLAGS) $(LIB) $(OBJ)
+
+%.o:%.cpp
+	$(CXX) $(CXXFLAGS) -c $<
+
+clean:
+	-rm -f *.o *~ $(LIB)

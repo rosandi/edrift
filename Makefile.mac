@@ -1,0 +1,19 @@
+
+FLAG = -I. -L./omd -DFDTD_CONSOLE
+INSTALL_DIR=$(HOME)
+INSTALL_DIR_MAC=$(HOME)/Library/local
+
+all:
+	make -C drift -f Makefile.mac
+	make -C frontend -f Makefile.mac
+
+document: 
+	doxygen doc/dox.cfg
+
+install: all
+	sh install.mac
+
+clean:
+#	make -C omd clean
+	make -C drift clean
+	make -C frontend clean
