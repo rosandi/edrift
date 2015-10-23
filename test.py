@@ -7,8 +7,8 @@ from drift import drift
 
 dim=1000
 
-symlist=("x ++-- "
-         "s +--- ")
+symlist=("x ++---- "
+         "s +----- ")
 
 mapstr=""
 
@@ -47,7 +47,7 @@ for i in range(0,dim):
 
 drf.dump("dump.out")
 plt.ion()
-for i in range(0,100):
+for i in range(0,10):
     drf.step(2500)
     A=drf.collect(drf.cell())
     plt.clf()

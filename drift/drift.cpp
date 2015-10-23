@@ -456,6 +456,11 @@ void DriftSolver::SetSymbolMap(string str) {
   for(int i=0;i<nbound;i++) {
     bound[i]=vb[i];
   }
+/* DEBUG  
+  for(int i=0;i<nbound;i++) {
+	  std::cout<<bound[i].sym<<bound[i].l<<bound[i].r<<bound[i].t<<bound[i].b<<bound[i].n<<bound[i].f<<std::endl;
+  }
+*/
 
 }
 
@@ -680,8 +685,6 @@ void DriftSolver::Dump(std::ostream &ofl) {
        <<"symbol\n";
 
     for(int i=0;i<nbound;i++) {
-
-
       ofl<<bound[i].sym<<" ";
       char l=bound[i].l==FDCELL_PERIODIC?'p':(bound[i].l==FDCELL_OCCUPIED?'+':'-');
       char r=bound[i].r==FDCELL_PERIODIC?'p':(bound[i].r==FDCELL_OCCUPIED?'+':'-');
@@ -691,7 +694,7 @@ void DriftSolver::Dump(std::ostream &ofl) {
         char n=bound[i].n==FDCELL_PERIODIC?'p':(bound[i].n==FDCELL_OCCUPIED?'+':'-');
         char f=bound[i].f==FDCELL_PERIODIC?'p':(bound[i].f==FDCELL_OCCUPIED?'+':'-');
         ofl<<l<<r<<t<<b<<n<<f<<"\n";
-      } else  ofl<<t<<l<<r<<b<<"\n";
+      } else  ofl<<l<<r<<t<<b<<"\n";
 
       /*
       ofl<<" # ("<<bound[i].l<<")"<<"("<<bound[i].r<<")"
