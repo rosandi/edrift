@@ -4,7 +4,7 @@ SRC = buffer.cpp drift.cpp equ.cpp driftlib.cpp
 LIB = libdrift
 OBJ = $(SRC:.cpp=.o)
 CXX=mpic++ -Wall
-CXXFLAGS = -O -I../ -I/opt/ompi/include -I$(HOME)/include
+CXXFLAGS = -O -I../ -I$(HOME)/include
 LIBFLAGS = -L$(HOME)/lib
 ARCHIVE = ar
 ARCHFLAG = -rc

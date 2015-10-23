@@ -1,7 +1,7 @@
 #ifndef __EQU_H__
 #define __EQU_H__
 
-#include <muParser/muParser.h>
+#include <muParser.h>
 #include "drift.h"
 
 using namespace edrift;

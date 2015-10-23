@@ -5,6 +5,7 @@ MAKEHOST =
 
 all:
 	make -C drift -f Makefile$(MAKEHOST)
+	make -C drift -f Makefile$(MAKEHOST) shlib
 	#make -C frontend -f Makefile$(MAKEHOST)
 
 document:
