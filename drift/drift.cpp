@@ -599,7 +599,11 @@ void DriftSolver::Step(int n) {
 
   for(int loop=0;loop<n;loop++) {
     sync_data();
-    for(int nc=0;nc<ncoupler;nc++) coupler[nc]->head();
+    for(int nc=0;nc<ncoupler;nc++) {
+			coupler[nc]->head();
+		}
+		
+		std::cout<<"step...\n";
 
     if(algo) {
       memcpy(T,A,sizeof(double)*dim);

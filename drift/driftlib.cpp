@@ -132,6 +132,7 @@ double drift_getdim(void* ptr,int axis) {
 void drift_equ_head(void* ptr, double* data, const char* equ, const char* cells, int sta, int sto) {
   DriftSolver* drf=(DriftSolver*)ptr;
   drf->LinkCoupler(new equhead(data,equ,cells,sta,sto));
+  std::cout << "//Link@head: "<<equ<<"\n";
 }
 
 void drift_equ_tail(void* ptr, double* data, const char* equ, const char* cells, int sta, int sto) {

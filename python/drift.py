@@ -135,10 +135,10 @@ class drift:
             i+=1
         return a
 
-    def link_equhead(self,ptr,equ='0',symbol='*',trange=[0,sys.maxint]):
+    def link_equhead(self,ptr,equ='0',symbol='*',trange=[0.0,sys.float_info.max]):
         self.lib.drift_equ_head(self.drift,ptr,equ,symbol,c_double(trange[0]),c_double(trange[1]))
 
-    def link_equtail(self,ptr,equ='0',symbol='*',trange=[0,sys.maxint]):
+    def link_equtail(self,ptr,equ='0',symbol='*',trange=[0.0,sys.float_info.max]):
         self.lib.drift_equ_tail(self.drift,ptr,equ,symbol,c_double(trange[0]),c_double(trange[1]))
 
     def link_source(self,e0,table=None,pulsewidth=0):

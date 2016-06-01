@@ -106,9 +106,11 @@ void equ::update() {
 }
 
 void equhead::head(){
+	std::cout<<"entry ("<<start<<")("<<stop<<")---";
   if(solver->step<start) return;
   if(solver->step>stop) return;
-
+  std::cout<<"called\n";
+  
   solverptr=solver;
   equptr=this;
 
@@ -133,7 +135,7 @@ void equhead::head(){
       var_y=var_iy*var_dl;
       var_z=var_iz*var_dl;
       ptr[i]=equpar.Eval();
-      //std::cout << "/* "<<ptr[i] << std::endl;
+     //  std::cout << "/* "<<ptr[i] << std::endl;
     } catch (mu::Parser::exception_type &e) {
       std::cerr << e.GetMsg() << std::endl;
       throw "ERROR@equhead";
