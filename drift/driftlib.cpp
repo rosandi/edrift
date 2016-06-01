@@ -3,6 +3,7 @@
 #include "drift.h"
 #include "coupler.h"
 #include "equ.h"
+#include "value.h"
 #include "driftlib.h"
 
 using namespace edrift;
