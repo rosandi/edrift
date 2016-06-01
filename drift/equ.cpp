@@ -106,10 +106,8 @@ void equ::update() {
 }
 
 void equhead::head(){
-	std::cout<<"entry ("<<start<<")("<<stop<<")---";
   if(solver->step<start) return;
   if(solver->step>stop) return;
-  std::cout<<"called\n";
   
   solverptr=solver;
   equptr=this;

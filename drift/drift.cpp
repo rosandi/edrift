@@ -579,6 +579,9 @@ void DriftSolver::AssignArray(double* ptr, int ix, int iy, int iz, double val) {
 }
 
 void DriftSolver::AssignArray(double* ptr, const char* str, double val) {
+	if(str[0]=='*')
+		for(int i=0;i<dim;i++) ptr[i]=val;
+
   int ln=strlen(str);
   for(int i=0;i<dim;i++){
     char ch=GetMapSymbol(i);
@@ -593,17 +596,15 @@ void DriftSolver::sync_data() {
 }
 
 void DriftSolver::Step(int n) {
+	
   // these are accumulated per call values
   memset(dS,0,dim*sizeof(double));
   memset(dExt,0,dim*sizeof(double));
 
   for(int loop=0;loop<n;loop++) {
     sync_data();
-    for(int nc=0;nc<ncoupler;nc++) {
-			coupler[nc]->head();
-		}
-		
-		std::cout<<"step...\n";
+    for(int nc=0;nc<ncoupler;nc++) coupler[nc]->head();
+
 
     if(algo) {
       memcpy(T,A,sizeof(double)*dim);

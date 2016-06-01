@@ -1,5 +1,5 @@
 
-SRC = buffer.cpp drift.cpp equ.cpp driftlib.cpp
+SRC = buffer.cpp drift.cpp equ.cpp value.cpp driftlib.cpp
 
 LIB = libdrift
 OBJ = $(SRC:.cpp=.o)

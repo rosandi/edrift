@@ -37,6 +37,8 @@ void drift_source_pulse(void* ptr, double e0,double pwidth);
 void drift_source_table(void* ptr, double e0, const char* tname);
 void drift_equ_head(void* ptr, double* data, const char* equ, const char* cells, int sta, int sto);
 void drift_equ_tail(void* ptr, double* data, const char* equ, const char* cells, int sta, int sto);
+void drift_value_head(void* ptr, double* data, double val, const char* cells, int sta, int sto);
+void drift_value_tail(void* ptr, double* data, double val, const char* cells, int sta, int sto);
 
 #ifdef __cplusplus
 }
